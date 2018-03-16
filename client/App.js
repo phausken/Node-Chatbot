@@ -34,11 +34,13 @@ export default class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { input: '', currentState: 'initial', username: '', goal: '', content: '' };
+    this.state = { input: '', newUser: true, currentState: 'initial', username: '', goal: '', content: '' };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.transition = this.transition.bind(this);
     this.receiveContent = this.receiveContent.bind(this);
+    this.updateGoal = this.updateGoal.bind(this);
+
   }
 
   transition(option = 'next'){
@@ -73,27 +75,54 @@ export default class App extends Component {
   receiveUser(input){
     APIUtil.fetchUser(input)
     .then((user) => {
-      console.log(user);
-      if(user.status === 200){
+      if (user){
         this.setState({
           username: user.data.name,
-          goal: user.data.goal
+          goal: user.data.goal,
+          newUser: false
         });
 
         this.transition('existing');
       } else {
+        this.setState({
+          username: this.state.input
+        });
         this.transition('new');
       }
     });
   }
 
   receiveContent(){
-    APIUtil.fetchContent(this.state.goal)
+    return APIUtil.fetchContent(this.state.goal)
     .then((res) => {
       this.setState({
         content: res.data.content
       });
     });
+  }
+
+
+
+  newUser(){
+    this.receiveContent()
+      .then(() => {
+        return APIUtil.addUser(this.state.username, this.state.goal);
+      });
+  }
+
+  updateGoal(){
+    this.receiveContent()
+      .then(() => {
+        return APIUtil.updateGoal(this.state.username, this.state.goal);
+      });
+  }
+
+  confirmUser(newUser){
+    if(newUser){
+      this.newUser();
+    } else {
+      this.updateGoal();
+    }
   }
 
   handleClick(event) {
@@ -104,6 +133,18 @@ export default class App extends Component {
       this.transition();
     } else if (currentState === 'greeting'){
       this.receiveUser(input);
+    } else if (currentState === 'welcNewUser' || currentState === 'welcBack' || currentState === 'retry'){
+      this.setState({
+        goal: this.state.input
+      });
+      this.transition();
+    } else if (currentState === 'confirmGoal'){
+      if (input === 'yes' || input === 'yeah' ){
+        this.confirmUser();
+        this.transition('yes');
+      } else if (input === 'no' || 'nope' || 'nah'){
+        this.transition('no');
+      }
     }
   }
 

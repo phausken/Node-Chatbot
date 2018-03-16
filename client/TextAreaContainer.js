@@ -15,13 +15,13 @@ export default class TextAreaContainer extends Component {
       case 'greeting':
         return `Good ${this.currentTime()}! What's your name?`;
       case 'welcBack':
-        return `Hi, ${this.props.username}! Welcome back! You said before you wanted to work on: ${this.props.goal}. What's one thing you want to work on now?`;
+        return `Hi, ${this.props.username}! Welcome back! You said before you wanted to work on: "${this.props.goal}". What's one thing you want to work on now?`;
       case 'welcNewUser':
         return `Hi, ${this.props.username}! What's one thing you want to work on?`;
       case 'confirmGoal':
-        return `So you want to work on ${this.props.goal}. Does that sound right, user?`;
+        return `So you want to work on "${this.props.goal}". Does that sound right, ${this.props.username}?`;
       case 'retry':
-        return `No problem, ${this.props.name}! Let's try again. What's one thing you want to work on?`;
+        return `No problem, ${this.props.username}! Let's try again. What's one thing you want to work on?`;
       case 'content':
         return `Great! Here's a daily dose of Shine to get you started: ${this.props.content}`;
       default:

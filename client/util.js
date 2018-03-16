@@ -15,13 +15,13 @@ const addUser = (name, goal) => {
 
 const updateGoal = (name, goal) => {
   return axios
-    .post(`http://localhost:8081/message`, { name, goal }, proxy)
+    .put(`http://localhost:8081/user`, { name, goal }, proxy)
     .catch(err => console.log(err));
 };
 
 const fetchContent = goal => {
   return axios
-    .post("https://shine-se-test-api.herokuapp.com/", { goal })
+    .post(`http://localhost:8081/message`, { goal }, proxy)
     .catch(err => console.log(err));
 };
 

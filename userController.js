@@ -1,9 +1,9 @@
-const User = require('./sequelize');
+const User = require("./userModel");
 
-const findUser = (name) => {
+const findUser = name => {
   return User.findOne({
-    where: {name},
-    attributes: ['id', 'name', 'goal']
+    where: { name },
+    attributes: ["id", "name", "goal"]
   });
 };
 
@@ -15,10 +15,7 @@ const createUser = (name, goal) => {
 };
 
 const updateUser = (name, goal) => {
-  return User.update(
-    {goal},
-    { where: {name}}
-  );
+  return User.update({ goal }, { where: { name } });
 };
 
 module.exports = {
