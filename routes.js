@@ -1,5 +1,5 @@
 const User = require("./userController");
-const axios = require('axios');
+const axios = require("axios");
 
 module.exports = app => {
   // Fetch an existing user (if exists)
@@ -22,10 +22,10 @@ module.exports = app => {
       .catch(error => res.status(400).send(error));
   });
 
-
   //Sequelize's update function does not return a model instance with MySQL,
   //which means it has find the user again upon a successful request
   app.put("/user", (req, res) => {
+
     User.updateUser(req.body.name, req.body.goal).then(() => {
       User.findUser(req.body.name)
         .then(user => {
@@ -40,8 +40,9 @@ module.exports = app => {
    */
 
   app.post("/message", (req, res) => {
-    axios.post("https://shine-se-test-api.herokuapp.com/", { goal: req.body.goal })
-      .then((content) => res.status(200).send(content.data))
+    axios
+      .post("https://shine-se-test-api.herokuapp.com/", { goal: req.body.goal })
+      .then(content => res.status(200).send(content.data))
       .catch(err => console.log(err));
   });
 };

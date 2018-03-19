@@ -8,6 +8,8 @@ const cors = require('cors');
 // Parse application/json
 app.use(bodyParser.json());
 
+// The header on line 15 does not allow for 'put' requests, hence the additional
+// CORS configuration
 app.use(cors());
 
 app.use(function(req, res, next) {
