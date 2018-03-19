@@ -1,5 +1,7 @@
 Thanks again for giving me this challenge, it was a lot of fun to put together.
 
+A quick note -- because I have an older Macbook, I'm using an older version of Node that doesn't support the 'async/await' syntax. That's why I handle all Promises `.then()` -- it's not a stylistic choice!
+
 ## Setup
 
 After running
